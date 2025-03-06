@@ -12,8 +12,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.ArrowForward
+import androidx.compose.material.icons.filled.AssignmentInd
+import androidx.compose.material.icons.filled.Email
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
@@ -21,6 +25,9 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateMapOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -30,6 +37,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardCapitalization
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -37,6 +46,10 @@ import br.senai.sp.jandira.bmi.R
 
 @Composable
 fun TelaInicial(modifier: Modifier = Modifier) {
+
+    var nomeState = remember {
+        mutableStateOf(value = "")
+    }
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -45,7 +58,8 @@ fun TelaInicial(modifier: Modifier = Modifier) {
                     Color(0xFFEFB4B4),
                     Color(0xFF8D2F2F)
                 )
-            )),
+            )
+            ),
         contentAlignment =  Alignment.BottomCenter
     ){
         Column (
@@ -88,20 +102,40 @@ fun TelaInicial(modifier: Modifier = Modifier) {
                         fontWeight = FontWeight.Bold
                     )
                     OutlinedTextField(
-                        value = "",
-                        onValueChange = {},
+                        value = nomeState.value,
+                        onValueChange = {it ->
+                            nomeState.value = it
+                        },
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(top = 10.dp),
                         shape = RoundedCornerShape(12.dp),
                         label = {
                             Text(text = stringResource(R.string.your_name_here))
-                        }
+                                },
+                        trailingIcon =  {
+                            Icon(
+                                imageVector = Icons.Default.AssignmentInd,
+                                contentDescription = "",
+                                tint = Color(0xFFEFB4B4)
+                            )
+                        } ,
+                        leadingIcon = {
+                            Icon(
+                                imageVector = Icons.Default.AccountCircle,
+                                contentDescription = "",
+                                tint = Color(0xFF8D2F2F)
+                            )
+                        },
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Text,
+                            capitalization = KeyboardCapitalization.Sentences
+                        )
                     )
                 }
 
                 Button(onClick = {},
-                ) {
+                    ) {
                     Text(
                         text = stringResource((R.string.next))
                     )
@@ -114,6 +148,7 @@ fun TelaInicial(modifier: Modifier = Modifier) {
         }
     }
 }
+   
 
 @Preview(showSystemUi = true)
 @Composable
