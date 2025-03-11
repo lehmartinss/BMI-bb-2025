@@ -12,7 +12,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import br.senai.sp.jandira.bmi.screens.TelaInicial
+import br.senai.sp.jandira.bmi.screens.UserdataScreen
 import br.senai.sp.jandira.bmi.ui.theme.BMITheme
 
 class MainActivity : ComponentActivity() {
@@ -21,7 +25,22 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             BMITheme {
-                TelaInicial()
+              var navController = rememberNavController()
+                NavHost(
+                    navController = navController,
+                    startDestination = "home"
+                ){
+                    composable(
+                        route = "home"
+                    ){
+                        TelaInicial(navController)
+                    }
+                    composable(
+                        route = "user_data"
+                    ){
+                        UserdataScreen()
+                    }
+                }
             }
         }
     }

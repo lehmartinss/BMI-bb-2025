@@ -19,6 +19,7 @@ import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.AssignmentInd
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
@@ -33,6 +34,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
@@ -42,21 +44,33 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import br.senai.sp.jandira.bmi.R
 
 @Composable
-fun TelaInicial(modifier: Modifier = Modifier) {
+fun TelaInicial(navController: NavController?) {
 
     var nomeState = remember {
         mutableStateOf(value = "")
     }
+
+    var isErrorState = remember {
+        mutableStateOf(false)
+    }
+
+    var errorMessageState = remember {
+        mutableStateOf("")
+    }
+
+    var context = LocalContext.current
+
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(brush = Brush.linearGradient(
                 listOf(
-                    Color(0xFFEFB4B4),
-                    Color(0xFF8D2F2F)
+                    Color(0xFF88BFEF),
+                    Color(0xFF5286BB)
                 )
             )
             ),
@@ -78,7 +92,8 @@ fun TelaInicial(modifier: Modifier = Modifier) {
             Text(
                 text = stringResource(R.string.welcome),
                 fontSize = 32.sp,
-                color = Color(0xFF3C0D34)
+                fontWeight = FontWeight.Bold,
+                color = Color(0xF5050404)
             )
             Card (modifier = Modifier
                 .fillMaxWidth()
@@ -117,30 +132,49 @@ fun TelaInicial(modifier: Modifier = Modifier) {
                             Icon(
                                 imageVector = Icons.Default.AssignmentInd,
                                 contentDescription = "",
-                                tint = Color(0xFFEFB4B4)
+                                tint = Color(0xFF5286BB)
                             )
                         } ,
                         leadingIcon = {
                             Icon(
                                 imageVector = Icons.Default.AccountCircle,
                                 contentDescription = "",
-                                tint = Color(0xFF8D2F2F)
+                                tint = Color(0xFF5286BB)
                             )
                         },
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.Text,
                             capitalization = KeyboardCapitalization.Sentences
-                        )
+                        ),
+                        isError =  isErrorState.value,
+                        supportingText = {
+                            Text(
+                                text = errorMessageState.value,
+                                color = Color.Red
+                            )
+                        }
                     )
                 }
 
-                Button(onClick = {},
+                Button(onClick = {
+                    if (nomeState.value.length < 3){
+                        isErrorState.value = true
+                        errorMessageState.value = context.getString(R.string.support_name)
+                    }else{
+                        navController?.navigate("user_data")
+                    }
+                },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color(0xFF88BFEF)
+                    )
                     ) {
                     Text(
-                        text = stringResource((R.string.next))
+                        text = stringResource((R.string.next)),
+                        color = Color.Black
                     )
                     Icon(imageVector = Icons.Filled.ArrowForward,
-                        contentDescription = ""
+                        contentDescription = "",
+                        tint = Color(0xF5050404)
                     )
                 }
             }
@@ -153,5 +187,5 @@ fun TelaInicial(modifier: Modifier = Modifier) {
 @Preview(showSystemUi = true)
 @Composable
 private fun TelaInicialPreview() {
-    TelaInicial()
+    TelaInicial(null)
 }
