@@ -167,7 +167,7 @@ fun UserdataScreen (modifier: Modifier = Modifier){
                     ) {
                         Card(
                             modifier = Modifier
-                                .size(100.dp),
+                                .size(110.dp),
                             shape = CircleShape,
                             border = BorderStroke(
                                 width = 4.dp,
