@@ -33,11 +33,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import br.senai.sp.jandira.bmi.R
 
 @Composable
 
-fun BMIResultScreen (){
+fun BMIResultScreen (navController: NavController?){
 
     Box(
         modifier = Modifier
@@ -140,9 +141,9 @@ fun BMIResultScreen (){
                             )
                             Card(
                                 modifier = Modifier
-                                    .height(85.dp)
+                                    .height(95.dp)
                                     .width(350.dp)
-                                    .padding(15.dp),
+                                    .padding(20.dp),
                                 colors = CardDefaults.cardColors(
                                     containerColor =  Color(0xFF5286BB)
                                 )
@@ -150,7 +151,7 @@ fun BMIResultScreen (){
                                 Row(
                                     modifier = Modifier
                                         .fillMaxSize()
-                                        .padding(10.dp)
+                                        .padding(5.dp)
                                 ){
                                     Column (
                                         modifier = Modifier
@@ -165,7 +166,7 @@ fun BMIResultScreen (){
                                          )
                                         Text(
                                             text = stringResource(R.string.number_age),
-                                            fontSize = 15.sp,
+                                            fontSize = 13.sp,
                                             fontWeight = FontWeight.Bold,
                                         )
                                     }
@@ -184,7 +185,7 @@ fun BMIResultScreen (){
                                         )
                                         Text(
                                             text = stringResource(R.string.number_weight),
-                                            fontSize = 15.sp,
+                                            fontSize = 13.sp,
                                             fontWeight = FontWeight.Bold,
                                         )
                                     }
@@ -202,7 +203,7 @@ fun BMIResultScreen (){
                                        )
                                        Text(
                                            text = stringResource(R.string.number_high),
-                                           fontSize = 15.sp,
+                                           fontSize = 13.sp,
                                            fontWeight = FontWeight.Bold,
                                        )
                                    }
@@ -232,7 +233,6 @@ fun BMIResultScreen (){
                                 )
                             }
                         }
-
                     }
                 }
             }
@@ -240,35 +240,8 @@ fun BMIResultScreen (){
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 @Preview(showSystemUi = true)
 @Composable
 private fun BMIResultScreenPreview() {
-    BMIResultScreen()
+    BMIResultScreen(null)
 }

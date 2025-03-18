@@ -46,10 +46,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import br.senai.sp.jandira.bmi.R
 
 @Composable
-fun UserdataScreen (modifier: Modifier = Modifier){
+fun UserdataScreen (navController: NavController?){
 
     var ageState = remember {
         mutableStateOf("")
@@ -291,7 +292,9 @@ fun UserdataScreen (modifier: Modifier = Modifier){
                     )
                 }
                 Button(
-                    onClick = {},
+                    onClick = {
+                        navController?.navigate("result_screen")
+                    },
                     modifier = Modifier
                         .padding(horizontal = 16.dp)
                         .fillMaxWidth(),
@@ -313,5 +316,5 @@ fun UserdataScreen (modifier: Modifier = Modifier){
 @Preview(showSystemUi = true)
 @Composable
 private fun UserDataScreenPreview() {
-    UserdataScreen()
+    UserdataScreen(null)
 }

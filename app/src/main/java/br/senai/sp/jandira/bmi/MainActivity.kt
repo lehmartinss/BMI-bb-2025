@@ -15,6 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import br.senai.sp.jandira.bmi.screens.BMIResultScreen
 import br.senai.sp.jandira.bmi.screens.TelaInicial
 import br.senai.sp.jandira.bmi.screens.UserdataScreen
 import br.senai.sp.jandira.bmi.ui.theme.BMITheme
@@ -38,7 +39,12 @@ class MainActivity : ComponentActivity() {
                     composable(
                         route = "user_data"
                     ){
-                        UserdataScreen()
+                        UserdataScreen(navController)
+                    }
+                    composable(
+                        route = "result_screen"
+                    ){
+                        BMIResultScreen(navController)
                     }
                 }
             }
