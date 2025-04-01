@@ -10,7 +10,7 @@
     <string name= "female"> Female</string>
     <string name= "age"> Age</string>
     <string name= "weight"> Weight</string>
-    <string name= "height"> Height</string>
+    <string name= "height"> Height in centimeters</string>
     <string name= "calculate"> Calculate</string>
     <string name= "support_name"> The name is required!</string>
     <string name= "your_BMI"> Your BMI Result</string>
@@ -21,5 +21,17 @@
     <string name= "number_weight"> 97 kg</string>
     <string name= "number_high"> 178 cm</string>
     <string name= "new_calc"> New Calc</string>
+    <string name= "under_weight"> You are below your ideal weight</string>
+    <string name= "normal_weight"> You have normal body weight</string>
+    <string name= "over_weight"> You are slightly overweight</string>
+    <string name= "class1_weight"> You have Class I Obesity </string>
+    <string name= "class2_weight"> You have Class II Obesity </string>
+    <string name= "class3_weight"> You have Class III Obesity </string>
+    <string name= "underweight"> Underweight</string>
+    <string name= "normal"> Normal </string>
+    <string name= "overweight"> Overweight </string>
+    <string name= "obesity1"> Obesity class I </string>
+    <string name= "obesity2"> Obesity class II </string>
+    <string name= "obesity3"> Obesity class III </string>
 
 </resources>

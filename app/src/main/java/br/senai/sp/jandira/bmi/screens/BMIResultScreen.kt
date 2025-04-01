@@ -29,7 +29,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -37,7 +37,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import br.senai.sp.jandira.bmi.R
+import br.senai.sp.jandira.bmi.calcs.bmiCalculator
 import br.senai.sp.jandira.bmi.model.BmiStatus
+import br.senai.sp.jandira.bmi.screens.components.BmiLevel
+import br.senai.sp.jandira.bmi.utils.isFilled
+import br.senai.sp.jandira.bmi.utils.numberFormat
 import java.util.Locale
 
 @Composable
@@ -50,12 +54,10 @@ fun BMIResultScreen (navController: NavController?){
         .getSharedPreferences("usuario", Context.MODE_PRIVATE)
 
     val age = sharedUserFile.getInt("user_age", 0)
-    var height = sharedUserFile.getInt("user_height", 0).toDouble()
+    val height = sharedUserFile.getInt("user_height", 0).toDouble()
     val weight = sharedUserFile.getInt("user_weight", 0)
 
-    height = height / 100.0
-
-    BmiStatus.NORMAL
+    val bmiResult = bmiCalculator(weight, height)
 
     Box(
         modifier = Modifier
@@ -121,12 +123,7 @@ fun BMIResultScreen (navController: NavController?){
                             shape = CircleShape,
                             border = BorderStroke(
                                 width = 4.dp,
-                                brush = Brush.horizontalGradient(
-                                    listOf(
-                                        Color(0xFF88BFEF),
-                                        Color(0xFFCE75DC)
-                                    )
-                                )
+                                color = bmiResult.color
                             ),
                             elevation = CardDefaults
                                 .cardElevation(2.dp)
@@ -138,12 +135,16 @@ fun BMIResultScreen (navController: NavController?){
                                 verticalArrangement = Arrangement.Center
                             ){
                                 Text(
-                                text = stringResource(R.string.number),
+                                text = String.format(
+                                    Locale.getDefault(),
+                                    format = "%.1f",
+                                bmiResult.bmi.second),
                                 color = Color(0xF5050404),
                                     fontSize = 35.sp,
                                     fontWeight = FontWeight.Bold,
 
-                            ) }
+                                )
+                            }
                         }
                         Column (
                             modifier = Modifier
@@ -152,7 +153,7 @@ fun BMIResultScreen (navController: NavController?){
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             Text(
-                                text = stringResource(R.string.you_class),
+                                text = bmiResult.bmi.first,
                                 fontSize = 20.sp,
                                 color = Color(0xF5050404)
                             )
@@ -222,7 +223,7 @@ fun BMIResultScreen (navController: NavController?){
                                            text = String.format(
                                                Locale.getDefault(),
                                                "%.2f",
-                                               height
+                                               height.div(100)
                                            ),
                                            fontSize = 13.sp,
                                            fontWeight = FontWeight.Bold,
@@ -230,14 +231,48 @@ fun BMIResultScreen (navController: NavController?){
                                    }
                                 }
                             }
-                            Box(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .height(350.dp)
-                            ){
+                            // Mostrar o resultado do IMC
+                           BmiLevel(
+                               markColor = colorResource(R.color.light_blue),
+                               text1 = stringResource(R.string.underweight),
+                               text2 = "< ${numberFormat(18.5)}",
+                               isFilled = isFilled(bmiResult.bmiStatus, BmiStatus.UNDERWEIGHT)
+                           )
+                           BmiLevel(
+                               markColor = colorResource(R.color.light_green),
+                               text1 = stringResource(R.string.normal),
+                               text2 = "< ${numberFormat(18.6)} - ${numberFormat(24.9)} ",
+                               isFilled = isFilled(bmiResult.bmiStatus, BmiStatus.NORMAL)
+                           )
+                           BmiLevel(
+                               markColor = colorResource(R.color.yellow),
+                               text1 = stringResource(R.string.overweight),
+                               text2 = "< ${numberFormat(25.0)} - ${numberFormat(29.9)} ",
+                               isFilled = isFilled(bmiResult.bmiStatus, BmiStatus.OVERWEIGHT)
+                           )
+                           BmiLevel(
+                               markColor = colorResource(R.color.light_orange),
+                               text1 = stringResource(R.string.obesity1),
+                               text2 = "< ${numberFormat(30.0)} - ${numberFormat(34.9)} ",
+                               isFilled = isFilled(bmiResult.bmiStatus, BmiStatus.OBESITY1)
+                           )
+                           BmiLevel(
+                               markColor = colorResource(R.color.dark_orange),
+                               text1 = stringResource(R.string.obesity2),
+                               text2 = "< ${numberFormat(35.0)} - ${numberFormat(39.9)} ",
+                               isFilled = isFilled(bmiResult.bmiStatus, BmiStatus.OBESITY2)
+                           )
+                           BmiLevel(
+                               markColor = colorResource(R.color.red),
+                               text1 = stringResource(R.string.obesity3),
+                               text2 = "> ${numberFormat(39.9)}",
+                               isFilled = isFilled(bmiResult.bmiStatus, BmiStatus.OBESITY3)
+                           )
 
-                            }
-                            HorizontalDivider()
+                            HorizontalDivider(
+                                modifier = Modifier
+                                    .padding(top = 20.dp)
+                            )
                             Button(
                                 onClick = {},
                                 modifier = Modifier
