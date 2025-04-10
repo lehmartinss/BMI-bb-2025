@@ -33,5 +33,6 @@
     <string name= "obesity1"> Obesity class I </string>
     <string name= "obesity2"> Obesity class II </string>
     <string name= "obesity3"> Obesity class III </string>
+    <string name= "support_height"> The height is required!</string>
 
 </resources>

@@ -44,6 +44,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -64,6 +65,14 @@ fun UserdataScreen (navController: NavController?){
     }
 
     var heightState = remember {
+        mutableStateOf("")
+    }
+
+    var isErrorState = remember {
+        mutableStateOf(false)
+    }
+
+    var errorMessageState = remember {
         mutableStateOf("")
     }
 
@@ -297,11 +306,23 @@ fun UserdataScreen (navController: NavController?){
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.Number,
                             imeAction = ImeAction.Done
+                        ),
+                        isError =  isErrorState.value,
+                        supportingText = {
+                        Text(
+                            text = errorMessageState.value,
+                            color = Color.Red
                         )
+                    }
                     )
                 }
                 Button(
                     onClick = {
+                        if (heightState.value.length < 3){
+                            isErrorState.value = true
+                            errorMessageState.value = context.getString(R.string.support_height)
+                        }
+
                         // Criar uma vareavel para editar o arquivo que acabamos de criar ou abrir
                         val editor = sharedUserFile.edit()
                         editor.putInt("user_age", ageState.value.trim().toInt())
